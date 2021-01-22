@@ -167,9 +167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 40228522382516523}
-  - component: {fileID: 40228522382516522}
   - component: {fileID: 40228522382516521}
-  - component: {fileID: 40228522382516520}
   m_Layer: 0
   m_Name: Villager and Path
   m_TagString: Untagged
@@ -184,7 +182,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 40228522382516524}
-  m_LocalRotation: {x: -0, y: -0.99038523, z: -0, w: 0.13833705}
+  m_LocalRotation: {x: 0, y: -0.99038553, z: 0, w: 0.13833472}
   m_LocalPosition: {x: 3.6641972, y: 1.012, z: 5.7132287}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -193,26 +191,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -164.09702, z: 0}
---- !u!114 &40228522382516522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 40228522382516524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1833bc259801f9243b37a3e4bfa5882b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  path:
-  - {fileID: 3877716781564877061}
-  - {fileID: 4291409394033669790}
-  - {fileID: 8903193177831023791}
-  moveSpeed: 1
-  testAngle: 45
-  testDist: 8
 --- !u!114 &40228522382516521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,24 +203,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d313cfc8b84f7c54d81ff73df7acf4c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!143 &40228522382516520
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 40228522382516524}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &40228522663071054
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,6 +370,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3819585087001115880}
+  - component: {fileID: 1335968682}
+  - component: {fileID: 1335968681}
   m_Layer: 0
   m_Name: Villager
   m_TagString: Untagged
@@ -424,8 +386,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 468101126930615713}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.0077707176, y: 0.8685352, z: 0.005585478, w: 0.49553508}
+  m_LocalPosition: {x: -0.01606083, y: 0.000011920929, z: 0.024680138}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 40228522855525255}
@@ -434,7 +396,46 @@ Transform:
   - {fileID: 40228522040562946}
   m_Father: {fileID: 40228522382516523}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.115, y: 120.586006, z: 1.0910001}
+--- !u!143 &1335968682
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468101126930615713}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1335968681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468101126930615713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1833bc259801f9243b37a3e4bfa5882b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  path:
+  - {fileID: 3877716781564877061}
+  - {fileID: 4291409394033669790}
+  - {fileID: 8903193177831023791}
+  movePattern1: 0
+  moveSpeed: 0.87
+  testAngle: 90
+  testDist: 8
 --- !u!1 &3107599331415174136
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +460,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3107599331415174136}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.910001, y: -0.903, z: 2.5800014}
+  m_LocalPosition: {x: 2.85, y: -0.903, z: -1.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7176746936391888439}
@@ -552,7 +553,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5613660466610579932}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.207, y: -0.903, z: 5.649}
+  m_LocalPosition: {x: 2.34, y: -0.903, z: -4.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7176746936391888439}

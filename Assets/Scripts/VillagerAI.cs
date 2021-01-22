@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,26 +39,35 @@ public class VillagerAI : MonoBehaviour
     // The distance from the enemy
     float distFromVillager = 0f;
 
-    int currentNode = 0;
+    [SerializeField] int currentNode = 0;
 
     Vector3 dirToNextNode;
 
-    float distToNextNode;
+    float distToNextNode = 0f;
 
     float prevDist = 0f;
 
-    MoveState curMoveState;
+    bool isWithinViewingAngle = false;
+
+    MoveState curMoveState = MoveState.forward;
+
+    [SerializeField] MovePattern movePattern;
 
     // Start is called before the first frame update
     void Start()
     {
-        SetDistToNextNode();
-        prevDist = distToNextNode;
-        curMoveState = MoveState.forward;
+        // movePattern = MovePattern.backAndForth;
+        GetDistToNextNode();
+        prevDist = distToNextNode + 0.1f; // the added constant is to ensure that !(distToNextNode > prevDist) on initialization
         c = GetComponent<CharacterController>();
         transform.position = SetXZPosition(path[0].position, transform.position.y);
         dirToNextNode = (path[currentNode + 1].localPosition - path[currentNode].localPosition).normalized;
-        transform.rotation = Quaternion.LookRotation(dirToNextNode, Vector3.up);
+        transform.localRotation = Quaternion.LookRotation(dirToNextNode, Vector3.up);
+        print("new direction: " + dirToNextNode +
+                  ", current node: " + currentNode +
+                  "\ncurrent move state: " + curMoveState +
+                  ", distance to next node: " + distToNextNode
+                  );
     }
 
     // Update is called once per frame
@@ -66,15 +76,25 @@ public class VillagerAI : MonoBehaviour
 
         rotationToPlayer = Quaternion.LookRotation(player.position - transform.position, Vector3.up).eulerAngles.y - transform.rotation.eulerAngles.y;
         distFromVillager = (player.position - transform.position).magnitude;
+        isWithinViewingAngle = (rotationToPlayer < testAngle && rotationToPlayer > -testAngle);
 
-        if ((rotationToPlayer < testAngle && rotationToPlayer > -testAngle) && distFromVillager < testDist)
+        if (isWithinViewingAngle && distFromVillager < testDist)
         {
             // when the villager spots the player
+            ChasePlayer();
+        }
+        else
+        {
 
         }
 
         MoveVillagerAlongPath();
         
+    }
+
+    private void ChasePlayer()
+    {
+        throw new NotImplementedException();
     }
 
     private void OnDrawGizmos()
@@ -100,14 +120,14 @@ public class VillagerAI : MonoBehaviour
 
     private void MoveVillagerAlongPath()
     {
-        SetDistToNextNode();
+        GetDistToNextNode();
 
         if (distToNextNode > prevDist)
         {
             ChangeDirection();
-            SetDistToNextNode();
+            GetDistToNextNode();
             transform.localPosition = SetXZPosition(path[currentNode].localPosition, transform.localPosition.y);
-            transform.rotation = Quaternion.LookRotation(dirToNextNode, Vector3.up);
+            transform.localRotation = Quaternion.LookRotation(dirToNextNode, Vector3.up);
         }
 
         // test //
@@ -116,14 +136,8 @@ public class VillagerAI : MonoBehaviour
 
         // end test //
         
-        print("new direction: " + dirToNextNode +
-                  ", current node: " + currentNode +
-                  "\ncurrent move state: " + curMoveState +
-                  ", distance to next node: " + distToNextNode
-                  );
-
         prevDist = distToNextNode;
-        print(c.Move(dirToNextNode * Time.deltaTime * moveSpeed));
+        c.Move(dirToNextNode * Time.deltaTime * moveSpeed);
     }
 
     private void ChangeDirection()
@@ -143,12 +157,12 @@ public class VillagerAI : MonoBehaviour
         currentNode++;
         if (currentNode < path.Length - 1)
         {
-            dirToNextNode = (path[currentNode + 1].localPosition - path[currentNode].localPosition).normalized;
+            dirToNextNode = GetXZDistance(path[currentNode + 1].localPosition).normalized;
         }
         else
         {
             curMoveState = MoveState.backward;
-            dirToNextNode = (path[currentNode - 1].localPosition - path[currentNode].localPosition).normalized;
+            dirToNextNode = GetXZDistance(path[currentNode - 1].localPosition).normalized;
         }
     }
 
@@ -157,16 +171,16 @@ public class VillagerAI : MonoBehaviour
         currentNode--;
         if (currentNode > 0)
         {
-            dirToNextNode = (path[currentNode - 1].localPosition - path[currentNode].localPosition).normalized;
+            dirToNextNode = GetXZDistance(path[currentNode - 1].localPosition).normalized;
         }
         else
         {
             curMoveState = MoveState.forward;
-            dirToNextNode = (path[currentNode + 1].localPosition - path[currentNode].localPosition).normalized;
+            dirToNextNode = GetXZDistance(path[currentNode + 1].localPosition).normalized;
         }
     }
 
-    private void SetDistToNextNode()
+    private void GetDistToNextNode()
     {
         if (curMoveState == MoveState.forward)
         {
