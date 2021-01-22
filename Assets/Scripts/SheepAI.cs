@@ -45,7 +45,7 @@ public class SheepAI : MonoBehaviour
         dirY = Random.Range(-1.0f, 1.0f);
         moveDirection = new Vector3(dirX, terrain.position.y, dirY);
         newRotation = Quaternion.LookRotation(moveDirection.normalized, transform.up);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(Random.Range(5f, 8f));
         didWait = true;
     }
 
