@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class SheepAI : MonoBehaviour
 {
-    [SerializeField] Transform groundCheck;
-
-    [SerializeField] Transform terrain;
-
     [SerializeField] float moveSpeed = 5f;
 
     CharacterController c;
@@ -29,7 +25,6 @@ public class SheepAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (didWait)
         {
             StartCoroutine(CalculateMoveDirection());
@@ -43,7 +38,7 @@ public class SheepAI : MonoBehaviour
         didWait = false;
         dirX = Random.Range(-1.0f, 1.0f);
         dirY = Random.Range(-1.0f, 1.0f);
-        moveDirection = new Vector3(dirX, terrain.position.y, dirY);
+        moveDirection = new Vector3(dirX, 0f, dirY);
         newRotation = Quaternion.LookRotation(moveDirection.normalized, transform.up);
         yield return new WaitForSeconds(Random.Range(5f, 8f));
         didWait = true;
@@ -53,5 +48,10 @@ public class SheepAI : MonoBehaviour
     {
         c.Move(moveDirection.normalized * Time.deltaTime * moveSpeed);
         transform.rotation = newRotation;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        
     }
 }

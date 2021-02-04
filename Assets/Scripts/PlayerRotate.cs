@@ -10,12 +10,6 @@ public class PlayerRotate : MonoBehaviour
     float mouseX = 0;
     float mouseY = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void LateUpdate()
     {

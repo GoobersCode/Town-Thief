@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    [SerializeField] CharacterController c;
+    [SerializeField] CharacterController characterController;
 
     [SerializeField] float speed = 1f;
 
@@ -45,7 +45,7 @@ public class PlayerMove : MonoBehaviour
         moveX = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
         moveZ = Input.GetAxis("Vertical") * speed * Time.deltaTime;
         
-        c.Move(transform.right * moveX + transform.forward * moveZ);
+        characterController.Move(transform.right * moveX + transform.forward * moveZ);
     }
 
     
