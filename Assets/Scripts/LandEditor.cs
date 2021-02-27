@@ -23,6 +23,8 @@ public class LandEditor : MonoBehaviour
     float offsetRampZ = -0.9487f;
     float offsetRampX = -0.005f;
 
+    float rotation = 0f;
+
     private void Start()
     {
         
@@ -31,10 +33,9 @@ public class LandEditor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         int snapX = Mathf.RoundToInt(transform.position.x / gridSize);
         int snapZ = Mathf.RoundToInt(transform.position.z / gridSize);
-
-        
 
         if (landType == LandType.ramp)
         {

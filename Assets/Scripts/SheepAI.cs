@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,52 +7,82 @@ public class SheepAI : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 5f;
 
-    CharacterController c;
+    [SerializeField] Transform groundCheck;
+
+    public bool isBeingHeld = false;
+
+    Rigidbody m_rigidbody;
 
     Vector3 moveDirection;
 
     Quaternion newRotation;
 
-    bool didWait = true;
+    RaycastHit hit;
 
     float dirX = 0f;
     float dirY = 0f;
+
+    bool didHit = false;
     
     void Start()
     {
-        c = GetComponent<CharacterController>();
+        m_rigidbody = GetComponent<Rigidbody>();
+
+        GroundSheep();
     }
 
+    
+
+    bool prevIsBeingHeld = false;
     // Update is called once per frame
     void Update()
     {
-        if (didWait)
+        bool heldStateChanged;
+        if (isBeingHeld != prevIsBeingHeld)
         {
-            StartCoroutine(CalculateMoveDirection());
+            heldStateChanged = true;
+        }
+        else
+        {
+            heldStateChanged = false;
         }
 
-        MoveSheep();
+        if (!isBeingHeld)
+        {
+            if (heldStateChanged)
+            {
+                GroundSheep();
+            }
+
+            MoveSheep();
+        }
+
+        prevIsBeingHeld = isBeingHeld;
     }
 
-    IEnumerator CalculateMoveDirection()
+    private void MoveSheep()
     {
-        didWait = false;
-        dirX = Random.Range(-1.0f, 1.0f);
-        dirY = Random.Range(-1.0f, 1.0f);
-        moveDirection = new Vector3(dirX, 0f, dirY);
-        newRotation = Quaternion.LookRotation(moveDirection.normalized, transform.up);
-        yield return new WaitForSeconds(Random.Range(5f, 8f));
-        didWait = true;
+        m_rigidbody.velocity = transform.forward * moveSpeed * Time.deltaTime;
     }
 
-    void MoveSheep()
+    private void GroundSheep()
     {
-        c.Move(moveDirection.normalized * Time.deltaTime * moveSpeed);
-        transform.rotation = newRotation;
+        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
+        didHit = Physics.Raycast(transform.position, -Vector3.up, out hit, Mathf.Infinity);
+        if (!didHit) return;
+
+        if (hit.collider.tag == "Ground" || hit.collider.tag == "LandRamp" || hit.collider.tag == "LandRaised")
+        {
+
+            transform.position = new Vector3(transform.position.x,
+                hit.point.y + Vector3.Distance(transform.position, groundCheck.position),
+                transform.position.z);
+        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnDrawGizmos()
     {
-        
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, (-Vector3.up).y * 22f, groundCheck.position.z));
     }
 }

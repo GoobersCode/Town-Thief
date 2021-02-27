@@ -5,28 +5,17 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class VillagerPath : MonoBehaviour
 {
-    [SerializeField] Transform path;
-    [SerializeField] Transform[] pathNodes;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] VillagerAI villager;
 
     // Update is called once per frame
     void Update()
     {
-        pathNodes = new Transform[path.childCount];
+        villager.SetPathNodesInEditor();
+        
+    }
 
-        for (int i = 0; i < path.childCount; i++)
-        {
-            pathNodes[i] = path.GetChild(i);
-        }
-
-        for (int i = 0; i < pathNodes.Length - 1; i++)
-        {
-            Debug.DrawLine(pathNodes[i].position, pathNodes[i + 1].position, Color.yellow);
-        }
+    private void LateUpdate()
+    {
+        villager.AlignNodesToGround();
     }
 }

@@ -10,6 +10,7 @@ public class PlayerMove : MonoBehaviour
 
     float moveX = 0;
     float moveZ = 0;
+    float jump = 0;
     
     public bool menuIsOpen = false;
 
@@ -44,8 +45,20 @@ public class PlayerMove : MonoBehaviour
     {
         moveX = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
         moveZ = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+        if (Input.GetKey(KeyCode.Space))
+        {
+            jump = speed * Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.LeftShift))
+        {
+            jump = -speed * Time.deltaTime;
+        }
+        else
+        {
+            jump = 0f;
+        }
         
-        characterController.Move(transform.right * moveX + transform.forward * moveZ);
+        characterController.Move(transform.right * moveX + transform.forward * moveZ + transform.up * jump);
     }
 
     

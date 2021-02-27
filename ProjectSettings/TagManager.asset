@@ -4,9 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Sheep
   - LandRaised
   - LandRamp
+  - Ground
+  - HoldableObject
   layers:
   - Default
   - TransparentFX
